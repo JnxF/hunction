@@ -1,3 +1,3 @@
 # This is hunction
 
-<img url="hunction.png">
+<img src="hunction.png">
