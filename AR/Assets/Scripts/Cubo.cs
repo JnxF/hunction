@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class Cubo : MonoBehaviour {
 
-	private float health;
+	[HideInInspector]
+	public float health;
 	private float damageRate;
 
-	public GameObject cube;
-	public GameObject camera;
+	//public GameObject cube;
+	//public GameObject camera;
 	public GameObject Net;
 	public GameObject seta;
 	private Animation setaA;
@@ -42,7 +43,6 @@ public class Cubo : MonoBehaviour {
 	}*/
 	
 	void onTap(){
-		Debug.Log("salu2");
 		Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
@@ -50,16 +50,16 @@ public class Cubo : MonoBehaviour {
 			if(hit.collider.gameObject.name == "Cube") {
 				setaA.Play("Damage");
 				if (battleStart == -1) battleStart = Time.time;
-				Debug.Log("Haciendo daño, vida actual: " + health);
+				//Debug.Log("Haciendo daño, vida actual: " + health);
 				health -= damageRate;
 				if (health <= 0) deadCube();
-				cube.gameObject.GetComponent<MeshRenderer>().material.color = cRed;
+				//cube.gameObject.GetComponent<MeshRenderer>().material.color = cRed;
 			} 
 		}
 	}
 
 	void deadCube() {
-		Destroy(gameObject);
+		gameObject.SetActive(false);
 		//Prize
 		float totalTime = Time.time - battleStart;
 		battleStart = -1;
@@ -73,26 +73,12 @@ public class Cubo : MonoBehaviour {
 			displayScore.text = "Better luck next time :(";
 			Debug.Log("Better luck next time :(");
 		}
-		spawnNewCube();
-		
 		//Net.GetComponent<InteractionAPI>().sendDeath("gameOver");
-	}
-
-	void spawnNewCube() {
-		//cube.gameObject.transform.position = new Vector3(-transform.position.x, -transform.position.y, -transform.position.z);
-		camera.GetComponent<GyroCamera>().hideGyro();
-		health = 100;
-		if (currentColor == cGreen) {
-			currentColor = cYellow;
-		}
-		else {
-			currentColor = cGreen;
-		}
 	}
 
 	void Update () {
 		if (Input.touchCount > 0) onTap();
-		else cube.gameObject.GetComponent<MeshRenderer>().material.color = currentColor;
+		//else cube.gameObject.GetComponent<MeshRenderer>().material.color = currentColor;
 	}
 }
 

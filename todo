@@ -1,2 +1,9 @@
 - Que se vea bien la interfaz otra vez
 - Añadir con un cliente cosas al mapa para los monstruos
+
+We aimed to create a game for children to play while their parents are shopping. Not only would it be an opportunity for them to play together,  but also encourange its use by offering sales or discounts based on one's ability in the game.
+
+We used Unity for the Front End (the augmented reality part) and Flask and SQLAlchemy for the Backend. 
+Cisco's API was used to link both and we were able to use it to gain the user's location on the area using the WiFI beacons. Once the location data was in Unity, we managed to project the real life coordinates to the game world.
+
+Unfortunately, the refresh rate was not fast enough for it to be used to track the movement of the player in the game in real time.

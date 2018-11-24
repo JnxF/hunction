@@ -7,8 +7,14 @@ public class PlayerTracker : MonoBehaviour {
     private IEnumerator coroutine;
     private int id = 0;
 
+    [HideInInspector]
     public Coordenadas coordenadas = null;
- 	public Coordenadas primeras = null;
+    [HideInInspector]
+ 	public Coordenadas primeras = null; 
+    [HideInInspector]
+ 	public Step[] steps = null;
+ 	[HideInInspector]
+ 	public int currentStepIdx = -1;
 
     public GameObject[] monstruos;
 
@@ -24,6 +30,7 @@ public class PlayerTracker : MonoBehaviour {
     void Start() {
         coroutine = WaitAndGet(30.0f);
         StartCoroutine(coroutine);
+        StartCoroutine(GetSteps());
     }
 
     // every 2 seconds perform the print()
@@ -36,7 +43,7 @@ public class PlayerTracker : MonoBehaviour {
 
     private IEnumerator Get() {
         UnityWebRequest www = UnityWebRequest.Get(
-        	"http://hunction2018.herokuapp.com/clients/94:65:2d:62:72:eb");
+        	"http://hunction2018.herokuapp.com/clients/bc:3d:85:23:4a:29"); //94:65:2d:62:72:eb");
     	yield return www.SendWebRequest();
 
     	if (www.isNetworkError) {
@@ -47,6 +54,7 @@ public class PlayerTracker : MonoBehaviour {
     	}
 
     	string sJason = www.downloadHandler.text;
+    	Debug.Log(sJason);
     	coordenadas = JsonUtility.FromJson<Coordenadas>(sJason);
     	if (coordenadas != null) {
         	Debug.Log("New coords: " + coordenadas.lat + ", " + coordenadas.lng);
@@ -56,13 +64,38 @@ public class PlayerTracker : MonoBehaviour {
         }
     }
 
-    void setUpMonsters() {
-    	Coordenadas monstruo1 = new Coordenadas(
-    		60.18499131783053 - primeras.lat,
-    		24.83297900744435 - primeras.lng);
+    private IEnumerator GetSteps() {
+    	UnityWebRequest www = UnityWebRequest.Get(
+        	"http://hunction2018.herokuapp.com/products");
+    	yield return www.SendWebRequest();
 
-    	foreach(var m in monstruos) {
-    		m.transform.position = new Vector3((float) monstruo1.lat * 100000, (float) monstruo1.lng * 100000);
+    	if (www.isNetworkError) {
+    		Debug.Log("Network error: " + www.error);
     	}
+    	if (www.isHttpError) {
+    		Debug.Log("Http error: " + www.error);
+    	}
+
+    	string sJason = www.downloadHandler.text;
+    	Debug.Log("List " + sJason);
+    	var tempSteps = PlayerTracker.getJsonArray<Step>(sJason);
+    	if (tempSteps != null) {
+        	Debug.Log("Got " + tempSteps.Length + " steps");
+        	steps = tempSteps;
+        	currentStepIdx = 0;
+        } else {
+        	Debug.Log("tempSteps is null");
+        }
+    }
+
+    public static T[] getJsonArray<T>(string json) {
+        string newJson = "{ \"array\": " + json + "}";
+        Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>> (newJson);
+        return wrapper.array;
+    }
+ 
+    [System.Serializable]
+    private class Wrapper<T> {
+        public T[] array;
     }
 }
