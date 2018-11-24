@@ -126,7 +126,7 @@ def products():
 
     elif request.method == "POST":
         data = request.get_json()
-        p = Product(lat=data["lat"], lng=data["lng"])
+        p = Product(lat=data["lat"], lng=data["lng"], order=data['order'])
         db_session.add(p)
         db_session.commit()
         return json.dumps(p.getObject()), 201, {'Content-Type': 'application/json', 'Cache-Control': 'no-cache'}
