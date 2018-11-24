@@ -3,7 +3,7 @@
 from flask import Flask, request, json
 from sqlalchemy.ext.declarative import DeclarativeMeta
 
-from database import db_session, Client, Product
+from database import db_session, Client, Product, init_db
 
 app = Flask(__name__, static_url_path='/static/')
 app.debug = True
@@ -44,6 +44,10 @@ class AlchemyEncoder(json.JSONEncoder):
 def index():
     return app.send_static_file('index.html')
 
+@app.route('/init_db', methods=['POST'])
+def initdb():
+    if request.get_json()['secret'] == SECRET:
+        init_db()
 
 @app.route('/events', methods=['GET', 'POST'])
 def events():
