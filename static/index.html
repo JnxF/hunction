@@ -5,9 +5,13 @@
     <title>Prueba</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        function recargar(){
+        function recargar() {
             $.get('clients', (data) => {
-                $('body').text(JSON.stringify(data));
+                if (typeof data === 'array') {
+                    $('body').text(data.length > 0 ? data[0] : 'Nada recibido');
+                } else {
+                    $('body').text('Recibido un no array');
+                }
                 setTimeout(recargar, 1000);
             });
         }
