@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html style="margin: 30px">
+	<title>HunctionGo</title>
+	<body>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+		<h1 style="margin-bottom: 100px">Supermarket map</h1>
+
+		<div><img style="margin: 0 auto 0 auto; display: block"  id="map"src="map.jpeg"/></div>​​​​​​​​​​​​​
+
+		<div id="snackbar">Some text some message..</div>
+
+	</body>
+
+	<script type="text/javascript">
+			$("#map").click(function (ev) {
+			mouseX = ev.pageX;
+			mouseY = ev.pageY
+			//alert(mouseX + ' ' + mouseY);
+			var color = '#FF4444';
+			var size = '10px';
+			$("body").append(
+					$('<div></div>')
+							.css('position', 'absolute')
+							.css('top', mouseY + 'px')
+							.css('left', mouseX + 'px')
+							.css('width', size)
+							.css('height', size)
+							.css('background-color', color)
+			);
+      var coords = mapCoords(mouseX, mouseY)
+
+			$.post("http://hunction2018.herokuapp.com/products", {lat: coords.lat, lng: coords.long, orden: 1, placename: "name"}, function(result){
+        $("span").html(result);
+				showToast(coords.lat, coords.long);
+    }, "json");
+	})
+	</script>
+
+	<script>
+	function showToast(xx, y) {
+	    var x = document.getElementById("snackbar");
+			x.innerHTML = "New monster added at " + xx + ", " + y;
+	    x.className = "show";
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 1500);
+	}
+
+	function mapCoords(x, y) {
+		var ul = {
+			lat: 60.185116,
+			long: 24.833211,
+			x: 34,
+			y: 140
+		}
+		var ur = {
+			lat: 60.185096,
+			long: 24.833418,
+			x: 192,
+			y: 131
+		}
+		var bl = {
+			lat: 60.184944,
+			long: 24.833121,
+			x: 32,
+			y: 432
+		}
+		var br = {
+			lat: 60.184932,
+			long: 24.833274,
+			x: 201,
+			y: 387
+		}
+
+		var lat = mapY(y)
+		var long = mapX(x)
+
+		return {lat: lat, long: long}
+	}
+
+	function mapX(x) {
+
+		var S1 = 32
+		var T1 = 24.833121
+		var S2 = 201
+		var T2 = 24.833274
+
+		var TranslateFactor = (T2*S1 - T1*S2) / (S1 - S2)
+		var ScalingFactor   = (T2 - T1) / (S2 - S1)
+
+		var T1 = TranslateFactor + ScalingFactor*S1
+		var T2 = TranslateFactor + ScalingFactor*S2
+
+		var TargetCoordinate = TranslateFactor + ScalingFactor*x
+
+		return TargetCoordinate
+
+	}
+
+	function mapY(y) {
+
+		var S1 = 131
+		var T1 = 60.185096
+		var S2 = 432
+		var T2 = 60.184944
+
+		var TranslateFactor = (T2*S1 - T1*S2) / (S1 - S2)
+		var ScalingFactor   = (T2 - T1) / (S2 - S1)
+
+		var T1 = TranslateFactor + ScalingFactor*S1
+		var T2 = TranslateFactor + ScalingFactor*S2
+
+		var TargetCoordinate = TranslateFactor + ScalingFactor*y
+
+		return TargetCoordinate
+
+	}
+	</script>
+
+	<style>
+	#snackbar {
+	    visibility: hidden;
+	    min-width: 250px;
+	    margin-left: -125px;
+	    background-color: #333;
+	    color: #fff;
+	    text-align: center;
+	    border-radius: 2px;
+	    padding: 16px;
+	    position: fixed;
+	    z-index: 1;
+	    left: 50%;
+	    bottom: 30px;
+	    font-size: 17px;
+	}
+
+	#snackbar.show {
+	    visibility: visible;
+	    -webkit-animation: fadein 0.5s, fadeout 0.5s 1.0s;
+	    animation: fadein 0.5s, fadeout 0.5s 1.0s;
+	}
+
+	@-webkit-keyframes fadein {
+	    from {bottom: 0; opacity: 0;}
+	    to {bottom: 30px; opacity: 1;}
+	}
+
+	@keyframes fadein {
+	    from {bottom: 0; opacity: 0;}
+	    to {bottom: 30px; opacity: 1;}
+	}
+
+	@-webkit-keyframes fadeout {
+	    from {bottom: 30px; opacity: 1;}
+	    to {bottom: 0; opacity: 0;}
+	}
+
+	@keyframes fadeout {
+	    from {bottom: 30px; opacity: 1;}
+	    to {bottom: 0; opacity: 0;}
+	}
+	</style>
+</html>
+
