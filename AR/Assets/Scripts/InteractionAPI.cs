@@ -3,17 +3,24 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+[System.Serializable]
+public class Coordenadas
+{
+    public Coordenadas(double lat = 0, double lng = 0) {
+        this.lat = lat;
+        this.lng = lng; 
+    }
+    public int getObject;
+    public double lat;
+    public double lng;
+    public string mac;
+    public string query;
+}
+
 public class InteractionAPI : MonoBehaviour {
 
-    [System.Serializable]
-    public class Coordenadas
-    {
-        public int getObject;
-        public float lat;
-        public float lng;
-        public string mac;
-        public string query;
-    }
+    public Coordenadas coordActuales;
+    public GameObject Camera;
 
     void Start () {
 		//StartCoroutine(communicateHeroku());
@@ -23,32 +30,7 @@ public class InteractionAPI : MonoBehaviour {
 
     }
 
-    public void sendData(string option) {
-        if (option == "coords") {
-            StartCoroutine(getCoords());
-        }
-    }
-
-    IEnumerator getCoords() {
-        UnityWebRequest www = UnityWebRequest.Get("http://hunction2018.herokuapp.com/clients/94:65:2d:62:72:eb");
-        yield return www.SendWebRequest ();
-        string sJason = www.downloadHandler.text;
-        Coordenadas coords = JsonUtility.FromJson<Coordenadas>(sJason);
-        Debug.Log(coords.lat);
-    }
-
-    IEnumerator communicateHeroku(int option) {
-		Debug.Log ("qewqeqeqw");
-		UnityWebRequest www = UnityWebRequest.Get("http://hunction2018.herokuapp.com/");
-		Debug.Log ("Vamos a enviar");
-		yield return www.SendWebRequest ();
-		Debug.Log ("Fin");
-		if(www.isNetworkError || www.isHttpError) {
-			Debug.Log(www.error);
-		}
-		else {
-			Debug.Log("Form upload complete!");
-		}
-		Debug.Log(www.downloadHandler.text);
+    public Coordenadas getCoordActuales() {
+        return coordActuales;
     }
 }
