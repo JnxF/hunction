@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.6
 
 from flask import Flask, request, json
-
+from sqlalchemy.ext.declarative import DeclarativeMeta
 from database import db_session, Client, Product
 
 app = Flask(__name__)
@@ -16,9 +16,6 @@ def shutdown_session(exception=None):
 SECRET = 'hunction2018'
 VALIDATOR = 'ac8b63a1c41e75a214b6693a370ba4615962fce2'
 EVENT_TYPE = 'DevicesSeen'
-
-from sqlalchemy.ext.declarative import DeclarativeMeta
-
 
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
