@@ -15,12 +15,6 @@ public class Cubo : MonoBehaviour {
 	public GameObject seta;
 	private Animation setaA;
 
-	private Color cBlack = Color.black;
-	private Color cRed = Color.red;
-	private Color cGreen = Color.green;
-	private Color cYellow = Color.yellow;
-	private Color currentColor;
-
 	public Text displayScore;
 
 	public Button profileButton;
@@ -34,7 +28,6 @@ public class Cubo : MonoBehaviour {
 		totalScore = 0;
 		health = 100f;
 		damageRate = 1f;
-		currentColor = cYellow;
 		//profileButton.onClick.AddListener(showScore);
 	}
 
