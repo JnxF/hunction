@@ -43,7 +43,7 @@ public class PlayerTracker : MonoBehaviour {
 
     private IEnumerator Get() {
         UnityWebRequest www = UnityWebRequest.Get(
-        	"http://hunction2018.herokuapp.com/clients/bc:3d:85:23:4a:29"); //94:65:2d:62:72:eb");
+        	"http://hunction2018.herokuapp.com/clients/94:65:2d:62:72:eb"); //bc:3d:85:23:4a:29");
     	yield return www.SendWebRequest();
 
     	if (www.isNetworkError) {

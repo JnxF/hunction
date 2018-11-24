@@ -43,10 +43,13 @@ public class Cubo : MonoBehaviour {
 	}*/
 	
 	void onTap(){
+		if (health <= 0) {
+			return;
+		}
+
 		Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
-			Debug.Log("Clicked: " + hit.collider.gameObject.name);
 			if(hit.collider.gameObject.name == "Cube") {
 				setaA.Play("Damage");
 				if (battleStart == -1) battleStart = Time.time;
@@ -59,21 +62,17 @@ public class Cubo : MonoBehaviour {
 	}
 
 	void deadCube() {
-		gameObject.SetActive(false);
 		//Prize
+		setaA.Play("Death");
 		float totalTime = Time.time - battleStart;
 		battleStart = -1;
 		float points = (10f-totalTime);
 		if (points > 0) {
-			Debug.Log("Score: " + points);
 			displayScore.text = points + " points!";
 			totalScore += points;
-		}
-		else {
+		} else {
 			displayScore.text = "Better luck next time :(";
-			Debug.Log("Better luck next time :(");
 		}
-		//Net.GetComponent<InteractionAPI>().sendDeath("gameOver");
 	}
 
 	void Update () {
