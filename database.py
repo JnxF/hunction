@@ -33,14 +33,16 @@ class Product(Base):
     lat = Column(Float())
     lng = Column(Float())
     order = Column(Integer())
+    placename = Column(String())
 
-    def __init__(self, order=None, lat=None, lng=None):
+    def __init__(self, order=None, lat=None, lng=None, pl=None):
         self.lat = lat
         self.lng = lng
         self.order = order
+        self.placename = pl
 
     def getObject(self):
-        return {"id": self.id, "order": self.order, "lat": self.lat, "lng": self.lng}
+        return {"id": self.id, "order": self.order, "lat": self.lat, "lng": self.lng, "placename": self.placename}
 
     def __repr__(self):
         return '<Product %r>' % self.mac
