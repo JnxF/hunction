@@ -29,7 +29,7 @@ public class GyroCamera : MonoBehaviour {
     void Update() {
         ApplyGyroRotation();
         ApplyCalibration();
-        UpdatePositionPlayer();
+        // UpdatePositionPlayer();
         if (playerTracker.coordenadas != null) {
         	displayCoords.text = playerTracker.coordenadas.lat + ", " + playerTracker.coordenadas.lng;
         }
@@ -46,10 +46,14 @@ public class GyroCamera : MonoBehaviour {
     		Debug.Log("null");
     	}
     }
-
  
     void ResetGyro() {
         calibrationYAngle = appliedGyroYAngle - initialYAngle; // Offsets the y angle in case it wasn't 0 at edit time.
+    }
+
+    public void hideGyro() {
+    	transform.Rotate( 0f, 0f, 180f, Space.Self );
+    		//calibrationYAngle = appliedGyroYAngle - initialYAngle;
     }
    
     void ApplyGyroRotation()  {
