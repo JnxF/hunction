@@ -44,6 +44,10 @@ class AlchemyEncoder(json.JSONEncoder):
 def index():
     return app.send_static_file('index.html')
 
+@app.route('/map.jpeg')
+def map():
+    return app.send_static_file('map.jpeg')
+
 @app.route('/init_db', methods=['POST'])
 def initdb():
     if request.get_json()['secret'] == SECRET:
