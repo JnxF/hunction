@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 834fab150c675f249b8a41cfb15989cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldObj: {fileID: 329716838}
+  resetButton: {fileID: 250480733}
 --- !u!81 &208593407
 AudioListener:
   m_ObjectHideFlags: 0
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.6764706, g: 0.6714965, b: 0.6757159, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 834fab150c675f249b8a41cfb15989cc, type: 3}
+      - m_Target: {fileID: 208593406}
         m_MethodName: set_name
         m_Mode: 5
         m_Arguments:
@@ -291,7 +291,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: ResetGyroRotation
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
@@ -337,7 +337,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 329716838}
-  - component: {fileID: 329716840}
   - component: {fileID: 329716839}
   m_Layer: 0
   m_Name: World
@@ -372,18 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayHealth: {fileID: 1510230489}
---- !u!114 &329716840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 329716837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e77fe92d1be37564fbdcd15f0b1da63a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displayHealth: {fileID: 0}
+  cube: {fileID: 497915862}
 --- !u!1 &476218686
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +491,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b32b3efded08ef946b78b7ea5885d882, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -896,7 +884,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1688686170}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!124 &1688686173
 Behaviour:
   m_ObjectHideFlags: 0
@@ -965,9 +953,9 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 720, y: 1280}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
