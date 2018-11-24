@@ -14,11 +14,6 @@
 	</body>
 
 	<script type="text/javascript">
-			$.ajaxSetup({
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
 			$("#map").click(function (ev) {
 			mouseX = ev.pageX;
 			mouseY = ev.pageY
@@ -36,10 +31,16 @@
 			);
       var coords = mapCoords(mouseX, mouseY)
 
-			$.post("http://hunction2018.herokuapp.com/products", {lat: coords.lat, lng: coords.long, orden: 1, placename: "name"}, function(result){
-        $("span").html(result);
+			$.ajax({
+			url: "http://hunction2018.herokuapp.com/products",
+			type: "post",
+			data: {lat: coords.lat, lng: coords.long, orden: 1, placename: "name"},
+			success: function(result){
+        		$("span").html(result);
 				showToast(coords.lat, coords.long);
-    	}, "json");
+    		},
+    		headers: {"Content-Type": "application/json"},
+    		dataType: "json"});
 	})
 	</script>
 
