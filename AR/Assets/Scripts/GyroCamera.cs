@@ -51,12 +51,15 @@ public class GyroCamera : MonoBehaviour {
     void Update() {
         ApplyGyroRotation();
         ApplyCalibration();
+        
         if (Time.time > timeHideText) {
             texts.gameObject.SetActive(false);
         }
+
         if (playerTracker.coordenadas != null) {
         	displayCoords.text = playerTracker.coordenadas.lat + ", " + playerTracker.coordenadas.lng;
         }
+
         switch(state) {
             default:
                 stateText.text = "Ended";
@@ -97,7 +100,6 @@ public class GyroCamera : MonoBehaviour {
             var currentStep = playerTracker.steps[playerTracker.currentStepIdx];
             var currentPosition = playerTracker.coordenadas;
             if (currentStep != null && currentPosition != null) {
-                // TODO: Calcular distancia entre ambas y ver si has llegado!
                 var meters = distance(
                     currentStep.lat,
                     currentStep.lng,
@@ -119,7 +121,7 @@ public class GyroCamera : MonoBehaviour {
     }
 
     void SpawnNewCube() {
-        cubo.transform.RotateAround(Vector3.zero, Vector3.up, Random.Range(0, 360));
+        cubo.transform.RotateAround(Vector3.zero, Vector3.up, 180);
         setaCubo.health = 100;
         world.SetActive(true);
     }
@@ -157,7 +159,7 @@ public class GyroCamera : MonoBehaviour {
    
     void ApplyGyroRotation()  {
         transform.rotation = Input.gyro.attitude;
-        transform.Rotate( 0f, 0f, 180f, Space.Self ); // Swap "handedness" of quaternion from gyro.
+        transform.Rotate( 0f, 0f, 180f, Space.World ); // Swap "handedness" of quaternion from gyro.
         transform.Rotate( 90f, 180f, 0f, Space.World ); // Rotate to make sense as a camera pointing out the back of your device.
         appliedGyroYAngle = transform.eulerAngles.y; // Save the angle around y axis for use in calibration.
     }
