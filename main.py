@@ -2,7 +2,7 @@
 
 from flask import Flask, request, json
 
-from database import db_session, init_db, Client, Product
+from database import db_session, Client, Product
 
 app = Flask(__name__)
 app.debug = True
@@ -34,8 +34,6 @@ class AlchemyEncoder(json.JSONEncoder):
                     fields[field] = None
             # a json-encodable dict
             return fields
-
-
 
         return json.JSONEncoder.default(self, obj)
 
@@ -87,16 +85,24 @@ def events():
     return "", 202
 
 
-@app.route('/client/<clientMac>')
+@app.route("/clients")
+def getClients():
+    clients = Client.query.all()
+    clients = list(map(lambda x: x.getObject(), clients))
+    return json.dumps(clients), 200
+
+
+@app.route('/clients/<clientMac>')
 def profile(clientMac):
     client = Client.query.filter(Client.mac == clientMac).first()
     return json.dumps(client, cls=AlchemyEncoder), 201
+
 
 @app.route('/products', methods=['GET', 'POST'])
 def products():
     if request.method == "GET":
         products = Product.query.all()
-        products = list(map(lambda x : x.getObject(), products))
+        products = list(map(lambda x: x.getObject(), products))
         return json.dumps(products), 200
 
     elif request.method == "POST":
@@ -105,6 +111,17 @@ def products():
         db_session.add(p)
         db_session.commit()
         return json.dumps(p.getObject()), 201
+
+
+@app.route("/products/<productId>", methods="[DELETE]")
+def delProduct(productId):
+    product = Product.query.filter(Product.id == productId).first()
+    if (product):
+        db_session.delete(product)
+        db_session.commit()
+        return "", 204
+    return "Product not found, hunctioner", 404
+
 
 def main():
     app.run()

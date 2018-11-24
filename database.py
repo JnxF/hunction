@@ -21,6 +21,9 @@ class Client(Base):
         self.lat = lat
         self.lng = lng
 
+    def getObject(self):
+        return {"mac": self.mac, "lat": self.lat, "lng": self.lng}
+
     def __repr__(self):
         return '<Client %r>' % self.mac
 
