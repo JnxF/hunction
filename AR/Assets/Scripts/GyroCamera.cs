@@ -9,22 +9,29 @@ public class GyroCamera : MonoBehaviour {
     public GameObject cubo;
     public GameObject world;
     public GameObject youWon;
+    public Text distanceText;
+    public Text stateText;
+    public Text texts;
+
+    private float timeHideText;
 
     private Cubo setaCubo;
 	private PlayerTracker playerTracker;
     private float initialYAngle = 0f;
     private float appliedGyroYAngle = 0f;
     private float calibrationYAngle = 0f;
+    private float timeToDie;
 
     public Button resetButton;
     
     public Text displayCoords;
  	private float lastTime;
 
-    private enum States {WaitingForSteps, WaitingToArrive, Fighting, Finished};
+    private enum States {WaitingForSteps, WaitingToArrive, Fighting, Dying, Finished};
     private States state = States.WaitingForSteps;
 
     void Start () {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
     	playerTracker = this.GetComponent<PlayerTracker>();
     	resetButton.onClick.AddListener(ResetGyro);
     	Input.gyro.enabled = true;
@@ -34,21 +41,40 @@ public class GyroCamera : MonoBehaviour {
         lastTime = Time.time;
         setaCubo = world.GetComponent<Cubo>();
     }
+
+    void ShowText(string text) {
+        texts.text = text;
+        timeHideText = Time.time + 2.0f;
+        texts.gameObject.SetActive(true);
+    }
  
     void Update() {
         ApplyGyroRotation();
         ApplyCalibration();
+        if (Time.time > timeHideText) {
+            texts.gameObject.SetActive(false);
+        }
         if (playerTracker.coordenadas != null) {
         	displayCoords.text = playerTracker.coordenadas.lat + ", " + playerTracker.coordenadas.lng;
         }
         switch(state) {
+            default:
+                stateText.text = "Ended";
+                break;
+            case States.Dying:
+                stateText.text = "Dying";
+                UpdateDying();
+                break;
             case States.Fighting:
+                stateText.text = "Fighting";
                 UpdateFighting();
                 break;
             case States.WaitingToArrive:
+                stateText.text = "WTA";
                 UpdateWaitingToArrive();
                 break;
             case States.WaitingForSteps:
+                stateText.text = "WFS";
                 UpdateWaitingForSteps();
                 break;
         }
@@ -57,6 +83,11 @@ public class GyroCamera : MonoBehaviour {
     void UpdateWaitingForSteps() {
         if (playerTracker.currentStepIdx >= 0) {
             this.state = States.WaitingToArrive;
+            distanceText.gameObject.SetActive(true);
+            if (playerTracker.currentStepIdx < playerTracker.steps.Length) {
+                var currentStep = playerTracker.steps[playerTracker.currentStepIdx];
+                ShowText("Next monster in: " + currentStep.placename);
+            }
             Debug.Log("WaitingForSteps -> WaitingToArrive");
         }
     }
@@ -73,10 +104,12 @@ public class GyroCamera : MonoBehaviour {
                     currentPosition.lat,
                     currentPosition.lng,
                     'K') * 1000.0;
-                Debug.Log("Distance: " + meters);
-                if ( meters < 1) {
+                distanceText.text = "Distance: " + meters;
+                if ( meters < 2 ) {
                     SpawnNewCube();
                     this.state = States.Fighting;
+                    distanceText.gameObject.SetActive(false);
+                    ShowText("Fight!");
                     Debug.Log("WaitingToArrive -> Fighting");
                 }
             }
@@ -86,17 +119,24 @@ public class GyroCamera : MonoBehaviour {
     }
 
     void SpawnNewCube() {
-        //cube.gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, -transform.position.z);
-        // camera.GetComponent<GyroCamera>().spawnSeta();
-        cubo.transform.RotateAround(Vector3.zero, Vector3.up, 180);
+        cubo.transform.RotateAround(Vector3.zero, Vector3.up, Random.Range(0, 360));
         setaCubo.health = 100;
         world.SetActive(true);
     }
 
     void UpdateFighting() {
-        if (!cubo.activeInHierarchy) {
+        if (setaCubo.health <= 0) {
+            timeToDie = Time.time + 3f;
+            this.state = States.Dying;
+        }
+    }
+
+    void UpdateDying() {
+        if (Time.time >= timeToDie) {
             playerTracker.currentStepIdx++;
+            world.SetActive(false);
             if (playerTracker.currentStepIdx < playerTracker.steps.Length) {
+                distanceText.gameObject.SetActive(true);
                 this.state = States.WaitingToArrive;
             } else {
                 this.state = States.Finished;

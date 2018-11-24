@@ -22,10 +22,12 @@ public class Step {
     public int order;
     public double lat;
     public double lng;
-    public Step(double lat=0, double lng=0, int order=1) {
+    public string placename;
+    public Step(double lat=0, double lng=0, int order=1, string placename="") {
         this.order = order;
         this.lat = lat;
-        this.lng = lng; 
+        this.lng = lng;
+        this.placename = placename;
     }
 }
 
