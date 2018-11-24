@@ -2,3 +2,4 @@
 AR/*
 !AR/Assets
 !AR/builds
+*.apk

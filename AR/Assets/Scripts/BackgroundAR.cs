@@ -9,7 +9,6 @@ public class BackgroundAR : MonoBehaviour {
 
 	void Start () {
 		arf = GetComponent<AspectRatioFitter> ();
-
 		image = GetComponent<RawImage> ();
 		cam = new WebCamTexture (Screen.width, Screen.height);
 		image.texture = cam;

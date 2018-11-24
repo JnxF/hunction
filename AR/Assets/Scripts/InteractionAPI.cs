@@ -16,7 +16,11 @@ public class InteractionAPI : MonoBehaviour {
 
     }
 
-    IEnumerator communicateHeroku() {
+    public void sendData() {
+        StartCoroutine(communicateHeroku(option));
+    }
+
+    IEnumerator communicateHeroku(int option) {
 		Debug.Log ("qewqeqeqw");
 		UnityWebRequest www = UnityWebRequest.Get("http://hunction2018.herokuapp.com/");
 		Debug.Log ("Vamos a enviar");
