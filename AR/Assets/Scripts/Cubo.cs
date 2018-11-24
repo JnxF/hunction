@@ -15,6 +15,7 @@ public class Cubo : MonoBehaviour {
 	private Color cGreen = Color.green;
 
 	void Start () {
+		Debug.Log ("d11111sadas");
 		health = 100f;
 		damageRate = 1f;
 		displayHealth.text = health.ToString();
