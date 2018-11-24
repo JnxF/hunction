@@ -107,7 +107,7 @@ def products():
         return json.dumps(p.getObject()), 201
 
 def main():
-    app.run(host= "10.84.2.17")
+    app.run()
 
 
 if __name__ == "__main__":
