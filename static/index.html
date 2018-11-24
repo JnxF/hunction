@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        function recargar(){
+            $.get('clients', (data) => {
+                $('body').text(JSON.stringify(data));
+                setTimeout(recargar, 1000);
+            });
+        }
+        recargar();
+    </script>
+</head>
+<body>
+Cargando...
+</body>
+</html>

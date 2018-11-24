@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import DeclarativeMeta
 
 from database import db_session, Client, Product
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static/')
 app.debug = True
 
 
@@ -42,7 +42,7 @@ class AlchemyEncoder(json.JSONEncoder):
 
 @app.route('/')
 def index():
-    return "holita metro"
+    return app.send_static_file('index.html')
 
 
 @app.route('/events', methods=['GET', 'POST'])
