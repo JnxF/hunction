@@ -51,7 +51,7 @@ public class GyroCamera : MonoBehaviour {
     void Update() {
         ApplyGyroRotation();
         ApplyCalibration();
-        
+
         if (Time.time > timeHideText) {
             texts.gameObject.SetActive(false);
         }
@@ -159,7 +159,7 @@ public class GyroCamera : MonoBehaviour {
    
     void ApplyGyroRotation()  {
         transform.rotation = Input.gyro.attitude;
-        transform.Rotate( 0f, 0f, 180f, Space.World ); // Swap "handedness" of quaternion from gyro.
+        transform.Rotate( 0f, 0f, 180f, Space.Self ); // Swap "handedness" of quaternion from gyro.
         transform.Rotate( 90f, 180f, 0f, Space.World ); // Rotate to make sense as a camera pointing out the back of your device.
         appliedGyroYAngle = transform.eulerAngles.y; // Save the angle around y axis for use in calibration.
     }
