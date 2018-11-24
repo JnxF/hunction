@@ -5,8 +5,23 @@
     <title>Prueba</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        let oldData = null;
+
         function recargar() {
             $.get('clients', (data) => {
+                if (!oldData || oldData.length != data.length || oldData[0]['lat'] !== data[0]['lat']
+                    || oldData[0]['lng'] !== data[0]['lng']) {
+                    $('body').css('background-color', getRandomColor());
+                }
                 $('body').text(JSON.stringify(data));
                 setTimeout(recargar, 1000);
             });
