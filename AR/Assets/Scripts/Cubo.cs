@@ -7,18 +7,17 @@ public class Cubo : MonoBehaviour {
 
 	private float health;
 	private float damageRate;
-	public Text displayHealth;
 
 	public GameObject cube;
+	public GameObject Net;
+
 	private Color cBlack = Color.black;
 	private Color cRed = Color.red;
 	private Color cGreen = Color.green;
 
 	void Start () {
-		Debug.Log ("d11111sadas");
 		health = 100f;
 		damageRate = 1f;
-		displayHealth.text = health.ToString();
 		cube.gameObject.GetComponent<MeshRenderer>().material.color = cGreen;
 	}
 	
@@ -38,6 +37,7 @@ public class Cubo : MonoBehaviour {
 
 	void deadCube() {
 		Destroy(gameObject);
+		//Net.GetComponent<InteractionAPI>().sendDeath("gameOver");
 	}
 
 	void Update () {
