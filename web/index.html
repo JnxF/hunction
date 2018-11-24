@@ -15,7 +15,6 @@
 
 	<script type="text/javascript">
 			$("#map").click(function (ev) {
-				console.log("lalalal");
 			mouseX = ev.pageX;
 			mouseY = ev.pageY
 			//alert(mouseX + ' ' + mouseY);
@@ -31,7 +30,11 @@
 							.css('background-color', color)
 			);
       var coords = mapCoords(mouseX, mouseY)
-			showToast(coords.lat, coords.long);
+
+			$.post("http://hunction2018.herokuapp.com/products", {lat: coords.lat, lng: coords.long, orden: 1, placename: "name"}, function(result){
+        $("span").html(result);
+				showToast(coords.lat, coords.long);
+    }, "json");
 	})
 	</script>
 
@@ -158,3 +161,4 @@
 	}
 	</style>
 </html>
+
