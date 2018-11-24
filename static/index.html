@@ -21,6 +21,7 @@
                 if (!oldData || oldData.length != data.length || oldData[0]['lat'] !== data[0]['lat']
                     || oldData[0]['lng'] !== data[0]['lng']) {
                     $('body').css('background-color', getRandomColor());
+                    oldData = data;
                 }
                 $('body').text(JSON.stringify(data));
                 setTimeout(recargar, 1000);
