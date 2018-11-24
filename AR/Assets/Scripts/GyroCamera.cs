@@ -20,6 +20,7 @@ public class GyroCamera : MonoBehaviour
     }
  
     void Update() {
+    	updateCoordenates();
         ApplyGyroRotation();
         ApplyCalibration();
     }
@@ -41,7 +42,7 @@ public class GyroCamera : MonoBehaviour
     }
 
     void updateCoordenates() {
-    	Net.GetComponent<InteractionAPI>().sendData("coords");
-    	//displayCoords.text = coords;
+    	coords = Net.GetComponent<InteractionAPI>().sendData("coords");
+    	displayCoords.text = coords;
     }
 }

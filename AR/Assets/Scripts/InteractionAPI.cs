@@ -5,18 +5,8 @@ using UnityEngine.Networking;
 
 public class InteractionAPI : MonoBehaviour {
 
-    [System.Serializable]
-    public class Coordenadas
-    {
-        public int getObject;
-        public float lat;
-        public float lng;
-        public string mac;
-        public string query;
-    }
-
     void Start () {
-		//StartCoroutine(communicateHeroku());
+		StartCoroutine(communicateHeroku());
     }
  
     void Update () {
@@ -29,12 +19,15 @@ public class InteractionAPI : MonoBehaviour {
         }
     }
 
-    IEnumerator getCoords() {
-        UnityWebRequest www = UnityWebRequest.Get("http://hunction2018.herokuapp.com/clients/94:65:2d:62:72:eb");
+    void getCoords() {
+        UnityWebRequest www = UnityWebRequest.Get("http://hunction2018.herokuapp.com/");
         yield return www.SendWebRequest ();
-        string sJason = www.downloadHandler.text;
-        Coordenadas coords = JsonUtility.FromJson<Coordenadas>(sJason);
-        Debug.Log(coords.lat);
+        if(www.isNetworkError || www.isHttpError) {
+            Debug.Log(www.error);
+        }
+        else {
+            
+        }
     }
 
     IEnumerator communicateHeroku(int option) {
