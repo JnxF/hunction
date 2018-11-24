@@ -45,7 +45,7 @@ def index():
     return app.send_static_file('index.html')
 
 @app.route('/map.jpeg')
-def map():
+def mapAnswering():
     return app.send_static_file('map.jpeg')
 
 @app.route('/init_db', methods=['POST'])
