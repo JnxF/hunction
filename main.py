@@ -2,6 +2,7 @@
 
 from flask import Flask, request, json
 from sqlalchemy.ext.declarative import DeclarativeMeta
+
 from database import db_session, Client, Product
 
 app = Flask(__name__)
@@ -16,6 +17,10 @@ def shutdown_session(exception=None):
 SECRET = 'hunction2018'
 VALIDATOR = 'ac8b63a1c41e75a214b6693a370ba4615962fce2'
 EVENT_TYPE = 'DevicesSeen'
+HARDCODED_MACS = [
+    'bc:3d:85:23:4a:29',
+    '94:65:2d:62:72:eb'
+]
 
 class AlchemyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -61,12 +66,16 @@ def events():
         print('Incorrect event type:', map['type'])
 
     for c in map['data']['observations']:
+
         loc = c['location']
         if loc == None:
             continue
         name = c['clientMac']
         lat = loc['lat']
         lng = loc['lng']
+
+        if name not in HARDCODED_MACS:
+            continue
 
         client = Client.query.filter(Client.mac == name).first()
         if client == None:
@@ -86,13 +95,22 @@ def events():
 def getClients():
     clients = Client.query.all()
     clients = list(map(lambda x: x.getObject(), clients))
-    return json.dumps(clients), 200
+    return json.dumps(clients), 200, {'Content-Type': 'application/json'}
+
+
+@app.route("/clients/<secret>", methods=["DELETE"])
+def deleteAll(secret):
+    if secret == SECRET:
+        Client.query.delete()
+        return "Tot ha patat", 204
+    else:
+        return "No ha passat", 203
 
 
 @app.route('/clients/<clientMac>')
 def profile(clientMac):
     client = Client.query.filter(Client.mac == clientMac).first()
-    return json.dumps(client, cls=AlchemyEncoder), 201
+    return json.dumps(client, cls=AlchemyEncoder), 201, {'Content-Type': 'application/json'}
 
 
 @app.route('/products', methods=['GET', 'POST'])
@@ -100,14 +118,14 @@ def products():
     if request.method == "GET":
         products = Product.query.all()
         products = list(map(lambda x: x.getObject(), products))
-        return json.dumps(products), 200
+        return json.dumps(products), 200, {'Content-Type': 'application/json'}
 
     elif request.method == "POST":
         data = request.get_json()
         p = Product(lat=data["lat"], lng=data["lng"])
         db_session.add(p)
         db_session.commit()
-        return json.dumps(p.getObject()), 201
+        return json.dumps(p.getObject()), 201, {'Content-Type': 'application/json'}
 
 
 @app.route("/products/<productId>", methods=["DELETE"])
