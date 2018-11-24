@@ -110,7 +110,7 @@ def products():
         return json.dumps(p.getObject()), 201
 
 
-@app.route("/products/<productId>", methods="[DELETE]")
+@app.route("/products/<productId>", methods=["DELETE"])
 def delProduct(productId):
     product = Product.query.filter(Product.id == productId).first()
     if (product):
