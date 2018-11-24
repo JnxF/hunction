@@ -7,11 +7,7 @@
     <script>
         function recargar() {
             $.get('clients', (data) => {
-                if (data.length !== undefined) {
-                    $('body').text(data.length > 0 ? data[0] : 'Nada recibido');
-                } else {
-                    $('body').text('Recibido un no array');
-                }
+                $('body').text(data);
                 setTimeout(recargar, 1000);
             });
         }
