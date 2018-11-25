@@ -16,6 +16,8 @@ public class GyroCamera : MonoBehaviour {
     public GameObject textsPanel;
     public Material setaOriginalMaterial;
 
+    public Text displayScore;
+
     private float timeHideText;
 
     private Cubo setaCubo;
@@ -24,6 +26,9 @@ public class GyroCamera : MonoBehaviour {
     private float appliedGyroYAngle = 0f;
     private float calibrationYAngle = 0f;
     private float timeToDie;
+
+    private float battleStart = -1f;
+    private float totalScore = 0;
 
     public Button resetButton;
     
@@ -54,6 +59,7 @@ public class GyroCamera : MonoBehaviour {
             SpawnNewCube();
             this.state = States.Fighting;
             distanceText.gameObject.SetActive(false);
+            battleStart = Time.time;
             ShowText("Fight!");
             Debug.Log("WaitingToArrive -> Fighting");
         }
@@ -87,6 +93,7 @@ public class GyroCamera : MonoBehaviour {
         switch(state) {
             default:
                 stateText.text = "Ended";
+                displayScore.text = "Score: " + totalScore.ToString("F2");
                 break;
             case States.Dying:
                 stateText.text = "Dying";
@@ -98,10 +105,12 @@ public class GyroCamera : MonoBehaviour {
                 break;
             case States.WaitingToArrive:
                 stateText.text = "WTA";
+                displayScore.text = "Score: " + totalScore.ToString("F2");
                 UpdateWaitingToArrive();
                 break;
             case States.WaitingForSteps:
                 stateText.text = "WFS";
+                displayScore.text = "Score: " + totalScore.ToString("F2");
                 UpdateWaitingForSteps();
                 break;
         }
@@ -130,11 +139,12 @@ public class GyroCamera : MonoBehaviour {
                     currentPosition.lat,
                     currentPosition.lng,
                     'K') * 1000.0;
-                distanceText.text = "Distance: " + meters;
+                distanceText.text = "Distance: " + meters.ToString("F2") + " m";
                 if ( meters < 2 ) {
                     SpawnNewCube();
                     this.state = States.Fighting;
                     distanceText.gameObject.SetActive(false);
+                    battleStart = Time.time;
                     ShowText("Fight!");
                     Debug.Log("WaitingToArrive -> Fighting");
                 }
@@ -145,16 +155,27 @@ public class GyroCamera : MonoBehaviour {
     }
 
     void SpawnNewCube() {
-        cubo.transform.RotateAround(Vector3.zero, Vector3.up, 180);
+        world.transform.RotateAround(Vector3.zero, Vector3.up, 180);
         cubo.GetComponentInChildren<SkinnedMeshRenderer>().material = setaOriginalMaterial;
-        setaCubo.health = 100;
+        setaCubo.health.SetMaxHealth();
         world.SetActive(true);
     }
 
     void UpdateFighting() {
-        if (setaCubo.health <= 0) {
+        float totalTime = Time.time - battleStart;
+        float points = (10f-totalTime);
+        if (points > 0) {
+            displayScore.text = points.ToString("F2") + " points!";
+        } else {
+            displayScore.text = "0 points :(";
+        }
+
+        if (setaCubo.health.GetHealth() <= 0) {
             timeToDie = Time.time + 3f;
             this.state = States.Dying;
+            if (points > 0) {
+                totalScore += points;
+            }
             Debug.Log("Fighting -> Dying");
         }
     }
@@ -174,7 +195,7 @@ public class GyroCamera : MonoBehaviour {
             } else {
                 this.state = States.Finished;
                 youWon.SetActive(true);
-                Debug.Log("Dying -> FInished");
+                Debug.Log("Dying -> Finished");
             }
         }
     }

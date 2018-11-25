@@ -4,37 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Cubo : MonoBehaviour {
-
-	[HideInInspector]
-	public float health;
-	private float damageRate;
-
 	//public GameObject cube;
 	//public GameObject camera;
 	public GameObject Net;
 	public GameObject seta;
+	public LifeBehavior health;
 	private Animation setaA;
 
-	public Text displayScore;
-
 	public Button profileButton;
-
-	private float battleStart = -1f;
-
-	private float totalScore;
 
 	void Start () {
 		setaA = seta.GetComponent<Animation>();
 		setaA["Attack"].wrapMode = WrapMode.Once;
 		setaA["Run"].wrapMode = WrapMode.Once;
-		totalScore = 0;
-		health = 100f;
-		damageRate = 1f;
+		health.SetMaxHealth();
 		//profileButton.onClick.AddListener(showScore);
 	}
 
 	void onTap(){
-		if (health <= 0) {
+		if (health.GetHealth() <= 0) {
 			return;
 		}
 
@@ -43,10 +31,9 @@ public class Cubo : MonoBehaviour {
 		if (Physics.Raycast (ray, out hit)) {
 			if(hit.collider.gameObject.name == "Cube") {
 				setaA.Play("Damage");
-				if (battleStart == -1) battleStart = Time.time;
 				//Debug.Log("Haciendo daño, vida actual: " + health);
-				health -= damageRate;
-				if (health <= 0) deadCube();
+				health.Hit();
+				if (health.GetHealth() <= 0) deadCube();
 				//cube.gameObject.GetComponent<MeshRenderer>().material.color = cRed;
 			} 
 		}
@@ -55,15 +42,6 @@ public class Cubo : MonoBehaviour {
 	void deadCube() {
 		//Prize
 		setaA.Play("Death");
-		float totalTime = Time.time - battleStart;
-		battleStart = -1;
-		float points = (10f-totalTime);
-		if (points > 0) {
-			displayScore.text = points + " points!";
-			totalScore += points;
-		} else {
-			displayScore.text = "Better luck next time :(";
-		}
 	}
 
 	void Update () {
