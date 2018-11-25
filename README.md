@@ -36,12 +36,16 @@ The last component of this project, the web, allows supermarket managers to choo
 * Flask (SQLAlchemy)
 * Cisco Meraki (Scan API)
 
-### Credit
+### Examples
 
-* [Amusedart (Monster model and animations)](https://assetstore.unity.com/packages/3d/characters/creatures/fantasy-mushroom-mon-115406)
+[Youtube Playlist](https://www.youtube.com/playlist?list=PLQzDx9j9ch_J-bQLoZ6g0KFGLq-_zPBJy)
 
 ### Images
 
 <img src="imatges/junc1.jpg" width="200px"><img src="imatges/junc2.jpg" width="200px">
 <img src="imatges/junc3.jpg" width="200px"><img src="imatges/junc4.jpg" width="200px">
 <img src="imatges/junc 5.jpg" width="200px">
+
+### Credit
+
+* [Amusedart (Monster model and animations)](https://assetstore.unity.com/packages/3d/characters/creatures/fantasy-mushroom-mon-115406)
