@@ -35,4 +35,4 @@ The last component of this project, the web, allows supermarket managers to choo
 
 ### Credit
 
-* [Amusedart (Monster model and animations)](https://assetstore.unity.com/packages/3d/characters/creatures/fantasy-mushroom-mon-115406
+* [Amusedart - Monster model and animations](https://assetstore.unity.com/packages/3d/characters/creatures/fantasy-mushroom-mon-115406
