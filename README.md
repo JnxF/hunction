@@ -4,7 +4,7 @@ Submission for Junction 2018 AI/Big Data track
 
 Augmented reality app to be played in supermarkets to encourage parent-children collaboration and gain customer loyalty for a chain (supermarket, etc)
 
-<img src="hunction.png">
+<img src="imatges/hunction.png">
 
 ### About
 
@@ -36,3 +36,11 @@ The last component of this project, the web, allows supermarket managers to choo
 ### Credit
 
 * [Amusedart (Monster model and animations)](https://assetstore.unity.com/packages/3d/characters/creatures/fantasy-mushroom-mon-115406)
+
+### Images
+
+<img src="imatges/junc (1).png">
+<img src="imatges/junc (2).png">
+<img src="imatges/junc (3).png">
+<img src="imatges/junc (4).png">
+<img src="imatges/junc (5).png">
