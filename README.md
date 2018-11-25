@@ -1,8 +1,11 @@
 # hunction
 
-Submission for Junction 2018 AI/Big Data track
+Submission for Junction 2018 AI/Big Data track: 
 
-Augmented reality app to be played in supermarkets to encourage parent-children collaboration and gain customer loyalty for a chain (supermarket, etc)
+**CISCO: CAPTURE THE CREATURE**
+*Augmented reality creature hunting game to entertain young super market customers.*
+
+Today’s retail companies look for new ways to drive customer loyalty and increase number of visits to their physical stores. In this challenge, you will develop an indoor, location-aware creature hunting game for smartphones, based on the BLE beacon or Wi-Fi location technologies in the Cisco Meraki solution. The aim of the game is to entertain young visitors and get their parents to visit store sections with offers that might interest them.
 
 <img src="imatges/hunction.png">
 
