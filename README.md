@@ -1,14 +1,14 @@
-# This is hunction
+# hunction
 
-Encourage parent-children collaboration and gain customer loyalty for a chain (supermarket, etc)
+Submission for Junction 2018 AI/Big Data track
+
+Augmented reality app to be played in supermarkets to encourage parent-children collaboration and gain customer loyalty for a chain (supermarket, etc)
 
 <img src="hunction.png">
 
 ### About
 
-Submission for Junction 2018 AI/Big Data track
-
-We aimed to create a game for children to play while their parents are shopping. Not only would it be an opportunity for them to play together,  but also encourage its use by offering sales or discounts based on one's ability in the game and thus strengthening the loyalty of customers. 
+We aimed to create a game for children to play while their parents are shopping. Not only would it be an opportunity for them to play together, but also encourage its use by offering sales or discounts based on one's ability in the game and thus strengthening the loyalty of customers. 
 
 We used Unity for the Application.  The app offers an Augmented Reality experience in which you can visualize and fight against monsters. When a monster is defeated some points are added to the users' score. The score can be exchanged for discounts or other advantages. 
 
@@ -29,6 +29,10 @@ The last component of this project, the web, allows supermarket managers to choo
 
 ### Used technologies
 
-* Unity
-* Flask
-* Cisco API
+* Unity (C#)
+* Flask (SQLAlchemy)
+* Cisco Meraki (Scan API)
+
+### Credit
+
+* [Amusedart (Monster model and animations)](https://assetstore.unity.com/packages/3d/characters/creatures/fantasy-mushroom-mon-115406
