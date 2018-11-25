@@ -13,6 +13,8 @@ public class GyroCamera : MonoBehaviour {
     public Text distanceText;
     public Text stateText;
     public Text texts;
+    public GameObject textsPanel;
+    public Material setaOriginalMaterial;
 
     private float timeHideText;
 
@@ -64,6 +66,7 @@ public class GyroCamera : MonoBehaviour {
     void ShowText(string text) {
         texts.text = text;
         timeHideText = Time.time + 2.0f;
+        textsPanel.SetActive(true);
         texts.gameObject.SetActive(true);
     }
  
@@ -74,6 +77,7 @@ public class GyroCamera : MonoBehaviour {
         //Debug.Log("THT . T " + timeHideText + " - " + Time.time);
         if (Time.time > timeHideText && texts.gameObject.activeInHierarchy) {
             texts.gameObject.SetActive(false);
+            textsPanel.SetActive(false);
         }
 
         if (playerTracker.coordenadas != null) {
@@ -142,6 +146,7 @@ public class GyroCamera : MonoBehaviour {
 
     void SpawnNewCube() {
         cubo.transform.RotateAround(Vector3.zero, Vector3.up, 180);
+        cubo.GetComponentInChildren<SkinnedMeshRenderer>().material = setaOriginalMaterial;
         setaCubo.health = 100;
         world.SetActive(true);
     }

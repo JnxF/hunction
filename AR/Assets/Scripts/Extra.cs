@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Extra : MonoBehaviour {
 
-	public string stringToEdit = "";
+	public string stringToEdit = "pepe";
     private TouchScreenKeyboard keyboard;
 	private const string exampleCoupon = "pepe";
 	private bool showGUI;
@@ -32,31 +32,34 @@ public class Extra : MonoBehaviour {
 
 	}
 
-	// Opens native keyboard
     void OnGUI() {
     	if (showGUI) {
-	        stringToEdit = GUI.TextField(new Rect(10, 10, 200, 30), stringToEdit, 30);
+	        stringToEdit = GUI.TextField(new Rect(10, 10, 300, 30), stringToEdit, 30);
 	        //GUI.backgroundColor = Color.blue;
-	        /*GUIStyle customButton = new GUIStyle("custom");
- 		    customButton.fontSize = 34;*/
-	        if (GUI.Button(new Rect(10, 50, 200, 100), "Insert Coupon Here")) {
+	        GUIStyle customButton = GUI.skin.button;
+ 		    customButton.fontSize = 44;
+	        if (GUI.Button(new Rect(10, 50, 300, 55), "Check coupon")) {
 	        	if (stringToEdit != null) {
 		        	showGUI = false;
-		            /*keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
-		            Debug.Log("teclado: " + keyboard.text);*/
 		            if (checkCoupon(stringToEdit)) {
-		            	seta.gameObject.GetComponent<MeshRenderer>().material = otherMaterial;
+		            	Debug.Log("Cambiado de seta");
+		            	seta.gameObject.GetComponent<SkinnedMeshRenderer>().material = otherMaterial;
 		            }
 	        	}
 			}
+			int pos = 110;
 			if (cam.GetState() == GyroCamera.States.WaitingToArrive) {
-		        if (GUI.Button(new Rect(10, 150, 200, 100), "Skip")) {
+		        if (GUI.Button(new Rect(10, pos, 300, 55), "Skip")) {
 		        	cam.Skip();
 		        	showGUI = false;
 		    	}
+		    	pos += 60;
 		    }
-			if (GUI.Button(new Rect(10, 250, 200, 100), "Restart")) {
+			if (GUI.Button(new Rect(10, pos, 300, 55), "Restart")) {
 	        	cam.Restart();
+	        	showGUI = false;
+	        }
+	        if (GUI.Button(new Rect(10, pos+60, 300, 50), "Close")) {
 	        	showGUI = false;
 	        }
 	    }
