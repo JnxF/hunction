@@ -34,11 +34,23 @@ public class Extra : MonoBehaviour {
     	if (showGUI) {
 	        //stringToEdit = GUI.TextField(new Rect(10, 10, 200, 30), stringToEdit, 30);
 	        //GUI.backgroundColor = Color.blue;
-	        if (GUI.Button(new Rect(10, 50, 150, 75), "Insert Coupon Here"))
-	        {
+	        if (GUI.Button(new Rect(10, 50, 150, 75), "Insert Coupon Here")) {
+	        	showGUI = false;
 	            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
-	             showGUI = false;
-	        }
+	            if (checkCoupon(keyboard.text)) {
+	            	if (GUI.Button(new Rect(10, 250, 200, 100), "Coupon correcto")) {
+	            	}
+	            }
+	            else {
+	            	if (GUI.Button(new Rect(10, 250, 200, 100), "Coupon INcorrecto")) {
+	            	}
+	            }
+			}
+	        if (GUI.Button(new Rect(10, 150, 200, 100), "Advance")) {
+            	if (GUI.Button(new Rect(10, 200, 200, 100), "AQUI HARIA LO DE AVANZAR")) {
+            		Debug.Log("salu2");
+            	}
+	    	}
 	    }
         /*if (GUI.Button(new Rect(10, 150, 200, 100), "ASCIICapable"))
         {
