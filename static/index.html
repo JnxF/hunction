@@ -79,7 +79,7 @@
 			url: "http://hunction2018.herokuapp.com/products",
 			type: "post",
 			data: {lat: coords.lat, lng: coords.long, orden: 1, placename: "name"},
-			success: function(result){
+			success: function(result) {
         		$("span").html(JSON.stringify(result));
 				showToast(coords.lat, coords.long);
     		},
