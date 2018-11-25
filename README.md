@@ -39,8 +39,8 @@ The last component of this project, the web, allows supermarket managers to choo
 
 ### Images
 
-<img src="imatges/junc (1).png">
-<img src="imatges/junc (2).png">
-<img src="imatges/junc (3).png">
-<img src="imatges/junc (4).png">
-<img src="imatges/junc (5).png">
+<img src="imatges/junc1.png">
+<img src="imatges/junc2.png">
+<img src="imatges/junc3.png">
+<img src="imatges/junc4.png">
+<img src="imatges/junc 5.png">
