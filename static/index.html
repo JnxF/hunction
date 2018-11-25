@@ -46,10 +46,10 @@
 	    to {bottom: 0; opacity: 0;}
 	}
 	</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	</head>
 	<body>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 		<h1 style="margin-bottom: 100px">Supermarket map</h1>
 
@@ -60,7 +60,7 @@
 	<script>
 			$("#map").click(function (ev) {
 			mouseX = ev.pageX;
-			mouseY = ev.pageY
+			mouseY = ev.pageY;
 			//alert(mouseX + ' ' + mouseY);
 			var color = '#FF4444';
 			var size = '10px';
@@ -73,14 +73,14 @@
 							.css('height', size)
 							.css('background-color', color)
 			);
-      var coords = mapCoords(mouseX, mouseY)
+      		var coords = mapCoords(mouseX, mouseY)
 
 			$.ajax({
 			url: "http://hunction2018.herokuapp.com/products",
 			type: "post",
 			data: {lat: coords.lat, lng: coords.long, orden: 1, placename: "name"},
 			success: function(result){
-        		$("span").html(result);
+        		$("span").html(JSON.stringify(result));
 				showToast(coords.lat, coords.long);
     		},
     		contentType: "application/json",
