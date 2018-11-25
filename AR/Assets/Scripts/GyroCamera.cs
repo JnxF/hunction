@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GyroCamera : MonoBehaviour {
 	public const float SCALE = 20000;
@@ -27,8 +28,12 @@ public class GyroCamera : MonoBehaviour {
     public Text displayCoords;
  	private float lastTime;
 
-    private enum States {WaitingForSteps, WaitingToArrive, Fighting, Dying, Finished};
+    public enum States {WaitingForSteps, WaitingToArrive, Fighting, Dying, Finished};
     private States state = States.WaitingForSteps;
+
+    public States GetState() {
+        return state;
+    }
 
     void Start () {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -42,6 +47,20 @@ public class GyroCamera : MonoBehaviour {
         setaCubo = world.GetComponent<Cubo>();
     }
 
+    public void Skip() {
+        if (state == States.WaitingToArrive) {
+            SpawnNewCube();
+            this.state = States.Fighting;
+            distanceText.gameObject.SetActive(false);
+            ShowText("Fight!");
+            Debug.Log("WaitingToArrive -> Fighting");
+        }
+    }
+
+    public void Restart() {
+        Application.LoadLevel(Application.loadedLevel);
+    }
+
     void ShowText(string text) {
         texts.text = text;
         timeHideText = Time.time + 2.0f;
@@ -52,7 +71,8 @@ public class GyroCamera : MonoBehaviour {
         ApplyGyroRotation();
         ApplyCalibration();
 
-        if (Time.time > timeHideText) {
+        //Debug.Log("THT . T " + timeHideText + " - " + Time.time);
+        if (Time.time > timeHideText && texts.gameObject.activeInHierarchy) {
             texts.gameObject.SetActive(false);
         }
 
@@ -130,6 +150,7 @@ public class GyroCamera : MonoBehaviour {
         if (setaCubo.health <= 0) {
             timeToDie = Time.time + 3f;
             this.state = States.Dying;
+            Debug.Log("Fighting -> Dying");
         }
     }
 
@@ -140,9 +161,15 @@ public class GyroCamera : MonoBehaviour {
             if (playerTracker.currentStepIdx < playerTracker.steps.Length) {
                 distanceText.gameObject.SetActive(true);
                 this.state = States.WaitingToArrive;
+                if (playerTracker.currentStepIdx < playerTracker.steps.Length) {
+                    var nextStep = playerTracker.steps[playerTracker.currentStepIdx];
+                    ShowText("Next monster in: " + nextStep.placename);
+                }
+                Debug.Log("Dying -> WaitingToArrive");
             } else {
                 this.state = States.Finished;
                 youWon.SetActive(true);
+                Debug.Log("Dying -> FInished");
             }
         }
     }

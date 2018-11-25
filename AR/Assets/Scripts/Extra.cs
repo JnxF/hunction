@@ -7,9 +7,12 @@ public class Extra : MonoBehaviour {
 
 	public string stringToEdit = "";
     private TouchScreenKeyboard keyboard;
-	private const string exampleCoupon = "51A8GQ3A091";
+	private const string exampleCoupon = "pepe";
 	private bool showGUI;
 	public Button optionsButton;
+	public GyroCamera cam;
+	public GameObject seta;
+	public Material otherMaterial;
 
 	void Start() {
 		showGUI = false;
@@ -32,25 +35,30 @@ public class Extra : MonoBehaviour {
 	// Opens native keyboard
     void OnGUI() {
     	if (showGUI) {
-	        //stringToEdit = GUI.TextField(new Rect(10, 10, 200, 30), stringToEdit, 30);
+	        stringToEdit = GUI.TextField(new Rect(10, 10, 200, 30), stringToEdit, 30);
 	        //GUI.backgroundColor = Color.blue;
-	        if (GUI.Button(new Rect(10, 50, 150, 75), "Insert Coupon Here")) {
-	        	showGUI = false;
-	            keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
-	            if (checkCoupon(keyboard.text)) {
-	            	if (GUI.Button(new Rect(10, 250, 200, 100), "Coupon correcto")) {
-	            	}
-	            }
-	            else {
-	            	if (GUI.Button(new Rect(10, 250, 200, 100), "Coupon INcorrecto")) {
-	            	}
-	            }
+	        /*GUIStyle customButton = new GUIStyle("custom");
+ 		    customButton.fontSize = 34;*/
+	        if (GUI.Button(new Rect(10, 50, 200, 100), "Insert Coupon Here")) {
+	        	if (stringToEdit != null) {
+		        	showGUI = false;
+		            /*keyboard = TouchScreenKeyboard.Open("", TouchScreenKeyboardType.Default);
+		            Debug.Log("teclado: " + keyboard.text);*/
+		            if (checkCoupon(stringToEdit)) {
+		            	seta.gameObject.GetComponent<MeshRenderer>().material = otherMaterial;
+		            }
+	        	}
 			}
-	        if (GUI.Button(new Rect(10, 150, 200, 100), "Advance")) {
-            	if (GUI.Button(new Rect(10, 200, 200, 100), "AQUI HARIA LO DE AVANZAR")) {
-            		Debug.Log("salu2");
-            	}
-	    	}
+			if (cam.GetState() == GyroCamera.States.WaitingToArrive) {
+		        if (GUI.Button(new Rect(10, 150, 200, 100), "Skip")) {
+		        	cam.Skip();
+		        	showGUI = false;
+		    	}
+		    }
+			if (GUI.Button(new Rect(10, 250, 200, 100), "Restart")) {
+	        	cam.Restart();
+	        	showGUI = false;
+	        }
 	    }
         /*if (GUI.Button(new Rect(10, 150, 200, 100), "ASCIICapable"))
         {
