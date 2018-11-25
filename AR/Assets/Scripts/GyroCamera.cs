@@ -63,7 +63,7 @@ public class GyroCamera : MonoBehaviour {
         Application.LoadLevel(Application.loadedLevel);
     }
 
-    void ShowText(string text) {
+    public void ShowText(string text) {
         texts.text = text;
         timeHideText = Time.time + 2.0f;
         textsPanel.SetActive(true);

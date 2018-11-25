@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class Extra : MonoBehaviour {
 
-	public string stringToEdit = "pepe";
+	public string stringToEdit;
     private TouchScreenKeyboard keyboard;
-	private const string exampleCoupon = "pepe";
+	private const string exampleCoupon = "M00sh3um";
 	private bool showGUI;
 	public Button optionsButton;
 	public GyroCamera cam;
@@ -16,11 +16,11 @@ public class Extra : MonoBehaviour {
 
 	void Start() {
 		showGUI = false;
-		optionsButton.onClick.AddListener(openOptions);
+		optionsButton.onClick.AddListener(toggleOptions);
 	}
 
-	void openOptions() {
-		showGUI = true;
+	void toggleOptions() {
+		showGUI = !showGUI;
 	}
 
 	bool checkCoupon(string inputCoupon) {
@@ -34,32 +34,42 @@ public class Extra : MonoBehaviour {
 
     void OnGUI() {
     	if (showGUI) {
-	        stringToEdit = GUI.TextField(new Rect(10, 10, 300, 30), stringToEdit, 30);
+ 		    int inicio = 150;
+ 		    int buttonHeight = 110;
+ 		    int menuWidth = 600;
+ 		    int buttonMargin = 10;
+ 		    int margenIzq = 25;
+
+			int pos = inicio + 55;
+
+ 		    GUIStyle customTextField = GUI.skin.textField;
+ 		    customTextField.fontSize = 70;
+	        stringToEdit = GUI.TextField(new Rect(margenIzq, pos, menuWidth, buttonHeight), stringToEdit, 30, customTextField);
+	        pos += buttonHeight + buttonMargin;
 	        //GUI.backgroundColor = Color.blue;
 	        GUIStyle customButton = GUI.skin.button;
- 		    customButton.fontSize = 44;
-	        if (GUI.Button(new Rect(10, 50, 300, 55), "Check coupon")) {
+ 		    customButton.fontSize = 70;
+	        if (GUI.Button(new Rect(margenIzq,  pos, menuWidth, buttonHeight), "Check coupon")) {
 	        	if (stringToEdit != null) {
 		        	showGUI = false;
 		            if (checkCoupon(stringToEdit)) {
-		            	Debug.Log("Cambiado de seta");
+		            	cam.ShowText("Red mushroom!");
 		            	seta.gameObject.GetComponent<SkinnedMeshRenderer>().material = otherMaterial;
+		            } else {
+		            	cam.ShowText("Invalid coupon");
 		            }
 	        	}
 			}
-			int pos = 110;
-			if (cam.GetState() == GyroCamera.States.WaitingToArrive) {
-		        if (GUI.Button(new Rect(10, pos, 300, 55), "Skip")) {
+			pos += buttonHeight + buttonMargin;
+	        if (cam.GetState() == GyroCamera.States.WaitingToArrive) {
+		        if (GUI.Button(new Rect(margenIzq,  pos, menuWidth, buttonHeight), "Skip")) {
 		        	cam.Skip();
 		        	showGUI = false;
 		    	}
-		    	pos += 60;
+		    	pos += buttonHeight + buttonMargin;
 		    }
-			if (GUI.Button(new Rect(10, pos, 300, 55), "Restart")) {
+			if (GUI.Button(new Rect(margenIzq,  pos, menuWidth, buttonHeight), "Restart")) {
 	        	cam.Restart();
-	        	showGUI = false;
-	        }
-	        if (GUI.Button(new Rect(10, pos+60, 300, 50), "Close")) {
 	        	showGUI = false;
 	        }
 	    }

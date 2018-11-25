@@ -25,16 +25,14 @@ public class Cubo : MonoBehaviour {
 
 	void Start () {
 		setaA = seta.GetComponent<Animation>();
+		setaA["Attack"].wrapMode = WrapMode.Once;
+		setaA["Run"].wrapMode = WrapMode.Once;
 		totalScore = 0;
 		health = 100f;
 		damageRate = 1f;
 		//profileButton.onClick.AddListener(showScore);
 	}
 
-	/*void showScore() {
-		displayScore.text = "Total: " + totalScore.ToString();
-	}*/
-	
 	void onTap(){
 		if (health <= 0) {
 			return;
@@ -70,7 +68,16 @@ public class Cubo : MonoBehaviour {
 
 	void Update () {
 		if (Input.touchCount > 0) onTap();
-		//else cube.gameObject.GetComponent<MeshRenderer>().material.color = currentColor;
+		if (setaA.IsPlaying("Idle")) {
+			if (Random.value < 0.005) {
+        	    if (Random.value < 0.2) {
+        	        setaA.Play("Attack");
+        	    } else {
+        	    	setaA.Play("Run");
+        	    }
+        	}
+        	setaA.PlayQueued("Idle");
+    	}
 	}
 }
 
