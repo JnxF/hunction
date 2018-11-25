@@ -43,12 +43,16 @@ public class Extra : MonoBehaviour {
 			int pos = inicio + 55;
 
  		    GUIStyle customTextField = GUI.skin.textField;
+	        GUIStyle customButton = GUI.skin.button;
  		    customTextField.fontSize = 70;
+ 		    //customTextField.normal.background = Texture2D.whiteTexture;
+ 		    //customTextField.normal.textColor =  Color.black;
+ 		    customButton.fontSize = 70;
+ 		    customButton.normal.background = Texture2D.whiteTexture;
+ 		    customButton.normal.textColor = Color.black;
 	        stringToEdit = GUI.TextField(new Rect(margenIzq, pos, menuWidth, buttonHeight), stringToEdit, 30, customTextField);
 	        pos += buttonHeight + buttonMargin;
 	        //GUI.backgroundColor = Color.blue;
-	        GUIStyle customButton = GUI.skin.button;
- 		    customButton.fontSize = 70;
 	        if (GUI.Button(new Rect(margenIzq,  pos, menuWidth, buttonHeight), "Check coupon")) {
 	        	if (stringToEdit != null) {
 		        	showGUI = false;
@@ -68,6 +72,13 @@ public class Extra : MonoBehaviour {
 		    	}
 		    	pos += buttonHeight + buttonMargin;
 		    }
+		    if (GUI.Button(new Rect(margenIzq,  pos, menuWidth, buttonHeight), "Redeem")) {
+		    	float sc = cam.getScore();
+		    	string code = "QI278";
+	        	cam.ShowText("Coupon " + code + " for " + (sc/1000).ToString("F2") + "€");
+	        	showGUI = false;
+	        }
+		    pos += buttonHeight + buttonMargin;
 			if (GUI.Button(new Rect(margenIzq,  pos, menuWidth, buttonHeight), "Restart")) {
 	        	cam.Restart();
 	        	showGUI = false;

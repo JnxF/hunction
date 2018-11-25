@@ -93,7 +93,7 @@ public class GyroCamera : MonoBehaviour {
         switch(state) {
             default:
                 stateText.text = "Ended";
-                displayScore.text = "Score: " + totalScore.ToString("F2");
+                displayScore.text = "Score: " + totalScore.ToString("F2") + "\nDiscount: " + totalScore / 2.0f + " cents";
                 break;
             case States.Dying:
                 stateText.text = "Dying";
@@ -114,6 +114,10 @@ public class GyroCamera : MonoBehaviour {
                 UpdateWaitingForSteps();
                 break;
         }
+    }
+
+    public float getScore() {
+        return totalScore;
     }
 
     void UpdateWaitingForSteps() {
